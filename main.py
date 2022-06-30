@@ -4,6 +4,12 @@ from random import choice, randint, shuffle
 from pyperclip import copy
 import json
 
+# ---------------------------- HANDLE JSON ------------------------------- #
+def get_passwords():
+    pass
+
+def add_password():
+    pass
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
@@ -20,7 +26,6 @@ def generate_password():
     shuffle(password_list)
     password = "".join(password_list)
 
-    print(f"Your password is: {password}")
     password_input.delete("0.1", END)
     password_input.insert("0.1", password)
     copy(password)
@@ -56,6 +61,23 @@ def save_password():
             password_input.delete("0.1", END)
 
 
+# ---------------------------- SEARCH ------------------------------- #
+def search():
+    website = website_input.get("0.1", "end-1c")
+    try:
+        with open("passwords.json") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No data file found")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title=website, message=f"No details currently exist for {website}")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 # Window setup
@@ -74,9 +96,12 @@ canvas.grid(row=0, column=1)
 website_label = Label(text="Website:", bg="white")
 website_label.grid(row=1, column=0)
 # input
-website_input = Text(height=1, width=35, bg="white")
+website_input = Text(height=1, width=21, bg="white")
 website_input.focus()
-website_input.grid(row=1, column=1, columnspan=2)
+website_input.grid(row=1, column=1)
+# button
+search_button = Button(text="Search", width=14, command=search)
+search_button.grid(row=1, column=2)
 
 # Email/Username - Row 2
 # label
@@ -95,7 +120,7 @@ password_label.grid(row=3, column=0)
 password_input = Text(height=1, width=21, bg="white")
 password_input.grid(row=3, column=1)
 # button
-password_button = Button(text="Generate Password", padx=0, command=generate_password)
+password_button = Button(text="Generate", width=14, command=generate_password)
 password_button.grid(row=3, column=2)
 
 # "Add" button - Row 4
