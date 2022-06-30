@@ -3,6 +3,7 @@ from tkinter import messagebox
 from random import choice, randint, shuffle
 from pyperclip import copy
 
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
@@ -23,6 +24,7 @@ def generate_password():
     password_input.delete("0.1", END)
     password_input.insert("0.1", password)
     copy(password)
+
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
